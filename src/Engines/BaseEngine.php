@@ -232,11 +232,10 @@ abstract class BaseEngine implements DataTableEngineContract
      */
     public function wildcardLikeString($str, $lowercase = true)
     {
-        $wild   = '%';
-        $length = strlen($str);
+        $length = mb_strlen($str, 'UTF-8');
         if ($length) {
             for ($i = 0; $i < $length; $i++) {
-                $wild .= $str[$i] . '%';
+                $wild = '%' . $str . '%';
             }
         }
         if ($lowercase) {
@@ -655,7 +654,7 @@ abstract class BaseEngine implements DataTableEngineContract
             $output = $this->showDebugger($output);
         }
 
-        return new JsonResponse($output);
+        return response()->json($output, 200, ['Content-type'=> 'application/json; charset=utf-8'], JSON_UNESCAPED_UNICODE);
     }
 
     /**
